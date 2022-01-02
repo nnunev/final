@@ -1,0 +1,44 @@
+.back-to-stock {
+    text-align: center;
+
+    @include media-breakpoint-only(xs) {
+        padding-bottom: 26px;
+
+        .btn {
+            width: 98%;
+            margin: 1%;
+            display: block;
+        }
+    }
+}
+
+#backToStockModal {
+    background-color: #{var(--skin-primary-color-1)};
+    
+    .modal-footer {
+        .container {
+            margin-left: 0;
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+
+    .select-cbp-container {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .product-name-wrapper {
+        width: 100%;
+    }
+
+    .selected-pid {
+        border: 1px solid $grey3;
+
+        .back-to-stock-product-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

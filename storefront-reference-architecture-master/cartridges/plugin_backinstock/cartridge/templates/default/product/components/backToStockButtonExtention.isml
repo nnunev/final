@@ -1,12 +1,11 @@
 <isif condition="${!product.available}"> 
-<div class="row cart-and-ipay">
+<div class="row back-to-stock">
     <div class="col-sm-12">
-        <input type="hidden" class="add-to-cart-url" value="${pdict.addToCartUrl}">
-        <button class="add-to-cart btn btn-primary"
-                data-toggle="modal" data-target="#chooseBonusProductModal"
+        <input type="hidden" class="add-to-notificationList-url" value="${pdict.id}"/>
+        <button class="back-to-stock"
+                data-toggle="modal" data-target="#backToStockModal"
                 data-pid="${product.id}">
-            <i class="fa fa-shopping-bag"></i>
-            ${Resource.msg('button.addtocart', 'common', null)}
+            ${Resource.msg('button.backtostock', 'myCommon', null)}
         </button>
     </div>
 </div>
