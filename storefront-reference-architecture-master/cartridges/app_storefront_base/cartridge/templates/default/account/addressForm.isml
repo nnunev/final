@@ -149,7 +149,7 @@
             <isprint value="${pdict.addressForm.phone.attributes}" encoding="off" />
             autocomplete="tel">
         <div class="invalid-feedback"></div>
-    </div>
+    </div>  
 
     <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}"/>
 

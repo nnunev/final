@@ -1,0 +1,12 @@
+{
+    "step-types": {
+        "script-module-step":
+        [
+            {
+                "@type-id":"custom.BackInStockCheck",
+                "description":"check if some of subscribed products is back in stock, if yes goes to sms controller",
+                "module":"plugin_backinstock/cartridge/scripts/steps/BackInStockCheck"
+            }
+        ]
+    }
+}

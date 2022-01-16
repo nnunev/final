@@ -1,7 +1,7 @@
 <isif condition="${!product.available}"> 
 <div class="row back-to-stock">
     <div class="col-sm-12">
-        <input type="hidden" class="add-to-notificationList-url" value="${pdict.id}"/>
+        <input type="hidden" class="add-to-notificationList-url" value="${product.id}"/>
         <button 
             type="button"
             class="btn btn-info btn-lg"
@@ -9,7 +9,7 @@
             data-target="#backToStockModal"
             data-pid="${product.id}"
             > 
-           ${Resource.msg('button.backtostock', 'myCommon', null)}
+           ${Resource.msg('button.backtostock', 'myCommon', null)} ${product.Id} ${URLUtils.url('BackInStock-Save')}
         </button>
     </div>
 </div>
@@ -21,13 +21,13 @@
         <div class="modal-content">
             
             <div class="modal-header">   
-                <h4 class="modal-title">Enter your phone to receive sms when the product is back in stock</h4>
+                <h4 class="modal-title">Enter your phone </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <div class="modal-body">
                 <div class="container">
-                    <isinclude template="/product/components/SMSFormTemplate" />
+                    <isinclude template="/product/components/NotifyMeBackInStock" value="${product.id}" />
                 </div>
             </div>
         

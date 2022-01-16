@@ -9,6 +9,6 @@
             ${Resource.msg('button.addtocart', 'common', null)}
         </button>
 
-        <isinclude template="product/components/backToStockButtonExtention"/>
+        <isinclude template="product/components/backInStockButtonExtention"/>
     </div>
 </div>

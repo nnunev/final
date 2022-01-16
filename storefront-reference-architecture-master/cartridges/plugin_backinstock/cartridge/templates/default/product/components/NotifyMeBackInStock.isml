@@ -1,0 +1,42 @@
+<!--- TEMPLATENAME: helloform.isml --->
+ <!--- <isscript>
+var assets = require('*/cartridge/scripts/assets.js');
+assets.addCss('/css/helloform.css'); 
+assets.addJs('/js/helloform.js'); </isscript>--->
+<isscript>
+var URLUtils = require('dw/web/URLUtils');
+</isscript>
+
+<div class="card">
+   
+    <form action="${URLUtils.url('BackInStock-Save')}" class="form" name="NotifyMeBackInStock" formid="NotifyMeBackInStock" method="POST"> 
+        <div class="form-group required">
+            
+            <input 
+                type="text" 
+                class="form-control" 
+                name="phoneNumbers"
+                id="phoneNumbers" 
+                placeholder="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}" 
+                aria-label="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}"/>
+        </div> 
+        <div class="form-group required">   
+            <input 
+                type="hidden" 
+                class="form-control" 
+                id="productId"
+                name="productId"
+                
+                value= "${product.id}" 
+                
+                placeholder= ${product.id} />
+        </div>       
+        
+        <button type="submit" name="save" class="btn btn-block btn-primary">Submit</button>
+        
+        
+        <input type="hidden" name="${dw.web.CSRFProtection.getTokenName()}" value="${dw.web.CSRFProtection.generateToken()}">
+    </form>
+</div>
+
+<iscomment> value="${pdict.Product.isVariant() ? pdict.Product.masterProduct.ID : pdict.Product.ID}"/> </iscomment>

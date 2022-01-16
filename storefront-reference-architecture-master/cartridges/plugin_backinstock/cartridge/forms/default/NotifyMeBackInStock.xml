@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+
+    <field
+
+        formid="productId"
+
+        label="productId"
+
+        type="string"
+
+        mandatory="true"
+
+       
+
+    />
+ <!-- binding="productID" -->
+    <field
+
+        formid="phoneNumbers"
+
+        label="phoneNumbers"
+
+        mandatory="true"
+        
+        regexp="^[0-9]*$"
+        
+		type="string"/> 
+
+    <action formid="subscribe" label="subscribe" valid-form="true"/>
+
+</form>

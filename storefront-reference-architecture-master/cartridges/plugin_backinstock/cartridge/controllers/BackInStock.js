@@ -1,19 +1,19 @@
 'use strict';
 
 /**
- * @namespace BackToStock
+ * @namespace BackInStock
  */
 
 var server = require('server');
 
 var csrfProtection = require('*/cartridge/scripts/middleware/csrf');
 var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
-
-/**
- * Checks if the phone value entered is correct format
- * @param {string} phone - phone string to check if valid
- * @returns {boolean} Whether phone is valid
- */
+var URLUtils = require('dw/web/URLUtils');
+// /**
+//  * Checks if the phone value entered is correct format
+//  * @param {string} phone - phone string to check if valid
+//  * @returns {boolean} Whether phone is valid
+//  */
 // function validatePhone(phone) {
 //     var regex = /^\(?([2-9][0-8][0-9])\)?[\-\. ]?([2-9][0-9]{2})[\-\. ]?([0-9]{4})(\s*x[0-9]+)?$/;
 //     return regex.test(phone);
@@ -38,11 +38,10 @@ server.get(
     csrfProtection.generateToken,
     consentTracking.consent,
     function (req, res, next) {
-        var backToStockForm = server.forms.getForm('BackToStockForm');
-        backToStockForm.clear();
-        res.render('product/components/SMSFormTemplate' , { backToStockForm: backToStockForm });
-        
-        
+        var backInStockForm = server.forms.getForm('NotifyMeBackInStock');
+        backInStockForm.clear();
+        res.render('product/components/NotifyMeBackInStock', { backInStockForm: backInStockForm });
+        // res.json({ backInStockForm: backInStockForm })      
         return next();
     }
 );
@@ -65,43 +64,42 @@ server.get(
  * @param {returns} - json
  * @param {serverfunction} - post
  */
+
 server.post(
     'Save',
     server.middleware.https,
     csrfProtection.validateAjaxRequest,
     function (req, res, next) {
         var CustomObjectMgr = require('dw/object/CustomObjectMgr');
-        // var formErrors = require('*/cartridge/scripts/formErrors');
-        var URLUtils = require('dw/web/URLUtils');
-        var backToStockForm = server.forms.getForm('BackToStockForm');
+        var formErrors = require('*/cartridge/scripts/formErrors');
+        var NotifyMeBackInStock = server.forms.getForm('NotifyMeBackInStock');
         var NOTIFY_ME_BACK_IN_STOCK_CO = 'NotifyMeBackInStock';
         var Resource = require('dw/web/Resource');
         var Transaction = require('dw/system/Transaction');
-        // var backToStockResult = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, backToStockForm.productId.value)
-        // var result = {
-        //     phone: backToStockForm.phone.value,
-        //     productID: backToStockForm.productID.value,
-        //     profileForm: profileForm
-        // };
+        var NotifyMeBackInStockResult = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
 
-        // form validation
-        // if (validatePhone(backToStockForm.phoneNumbers.value) === false) {
-        //     backToStockForm.valid = false;
-        //     backToStockForm.phone.valid = false;
-        //     backToStockForm.phone.error = Resource.msg('error.message.parse.phone.profile.form', 'forms', null);
-        // }
-        backToStockForm.valid = true;
-        if (backToStockForm.valid) {
+        if (!empty(NotifyMeBackInStockResult)) {
+            // Transaction.wrap(function () {       
+            //     CustomObjectMgr.remove(CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId));
+                
+            // });
+
             Transaction.wrap(function () {
-                var backToStockEntry = CustomObjectMgr.createCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, backToStockForm.productId.value);
-                backToStockEntry.custom.phoneNumbers = backToStockForm.phoneNumbers.value;
+                var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
+                NotifyMeBackInStockEntry.custom.phoneNumbers =NotifyMeBackInStockEntry.custom.phoneNumbers + ' , ' + req.form.phoneNumbers;
             });
-
-            res.json({
-                success: true,
-                redirectUrl: URLUtils.url('BackToStock-Show').toString()
+        } else {
+            Transaction.wrap(function () {
+                var NotifyMeBackInStockEntry = CustomObjectMgr.createCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
+                NotifyMeBackInStockEntry.custom.phoneNumbers = req.form.phoneNumbers ;
             });
-        }
+         }
+        var d=CustomObjectMgr.describe('NotifyMeBackInStock')
+        
+        res.json({
+            success: true,
+            redirectUrl: URLUtils.url('BackInStock-Show').toString(),
+        });
         return next();
     });
 
