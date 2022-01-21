@@ -9,15 +9,15 @@ var server = require('server');
 var csrfProtection = require('*/cartridge/scripts/middleware/csrf');
 var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
 var URLUtils = require('dw/web/URLUtils');
-/**
- * Checks if the phone value entered is correct format
- * @param {string} phone - phone string to check if valid
- * @returns {boolean} Whether phone is valid
- */
-function validatePhone(phone) {
-    var regex = /^[0-9]*$/;
-    return regex.test(phone);
-}
+// /**
+//  * Checks if the phone value entered is correct format
+//  * @param {string} phone - phone string to check if valid
+//  * @returns {boolean} Whether phone is valid
+//  */
+    // function valPhone(phone) {
+    //     var regex = /^[0-9]*$/;
+    //     return regex.test(phone);
+    // }
 
 /**
  * Checks if the phone value entered is correct format
@@ -87,18 +87,18 @@ server.post(
         if (!form) { error = true; }
 
         try {
-        if (!empty(NotifyMeBackInStockResult)) {
+            if (!empty(NotifyMeBackInStockResult)) {
 
-            Transaction.wrap(function () {
-                var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
-                NotifyMeBackInStockEntry.custom.phoneNumbers =NotifyMeBackInStockEntry.custom.phoneNumbers + ' , ' + req.form.phoneNumbers;
-            });
-        } else {
-            Transaction.wrap(function () {
-                var NotifyMeBackInStockEntry = CustomObjectMgr.createCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
-                NotifyMeBackInStockEntry.custom.phoneNumbers = req.form.phoneNumbers ;
-            });
-        }
+                Transaction.wrap(function () {
+                    var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
+                    NotifyMeBackInStockEntry.custom.phoneNumbers =NotifyMeBackInStockEntry.custom.phoneNumbers + ' , ' + req.form.phoneNumbers;
+                });
+            } else {
+                Transaction.wrap(function () {
+                    var NotifyMeBackInStockEntry = CustomObjectMgr.createCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
+                    NotifyMeBackInStockEntry.custom.phoneNumbers = req.form.phoneNumbers ;
+                });
+            }
         } catch (error) {
             error = true;
         }
@@ -116,24 +116,3 @@ module.exports = server.exports();
 
 
 // Transaction.wrap(function () {CustomObjectMgr.remove(CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId));});
-
-    try {
-        Transaction.wrap(function () {
-            var newsletter = CustomObjectMgr.createCustomObject(type, keyValue);
-            newsletter.custom.msFirstName = form.firstName;
-            newsletter.custom.msLastName = form.lastName;
-            newsletter.custom.msEmail = form.email;
-            newsletter.custom.msGender = form.gender;
-        });
-    } catch (error) {
-        error = true;
-    }
-
-    if (error) {
-        res.json({ error: true });
-    } else {
-        res.json({ error: false, id: keyValue });
-    }
-
-    return next();
-});
