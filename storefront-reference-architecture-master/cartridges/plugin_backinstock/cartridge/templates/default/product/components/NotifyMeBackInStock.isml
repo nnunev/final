@@ -1,11 +1,12 @@
 <!--- TEMPLATENAME: helloform.isml --->
- <!--- <isscript>
+<isscript>
 var assets = require('*/cartridge/scripts/assets.js');
 assets.addCss('/css/helloform.css'); 
-assets.addJs('/js/helloform.js'); </isscript>--->
+assets.addJs('/js/helloform.js'); </isscript>
+<iscomment> 
 <isscript>
 var URLUtils = require('dw/web/URLUtils');
-</isscript>
+</isscript> </iscomment>
 
 <div class="card">
    

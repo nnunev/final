@@ -1,6 +1,7 @@
 <div class="row cart-and-ipay">
     <div class="col-sm-12">
         <input type="hidden" class="add-to-cart-url" value="${pdict.addToCartUrl}" />
+        <isif condition="${product.available}">
         <button class="add-to-cart btn btn-primary"
                 data-toggle="modal" data-target="#chooseBonusProductModal"
                 data-pid="${product.id}"
@@ -8,7 +9,7 @@
             <i class="fa fa-shopping-bag"></i>
             ${Resource.msg('button.addtocart', 'common', null)}
         </button>
-
+        </isif>
         <isinclude template="product/components/backInStockButtonExtention"/>
     </div>
 </div>

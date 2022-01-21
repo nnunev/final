@@ -23,6 +23,10 @@
 
         mandatory="true"
         
+        min-length="7"
+
+        max-length="15"
+        
         regexp="^[0-9]*$"
         
 		type="string"/> 
