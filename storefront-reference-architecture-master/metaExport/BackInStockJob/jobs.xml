@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+    <job job-id="BackInStockCheck12hours" priority="0">
+        <description>This job checks if some of the subscribed products is back in stock, if yes it goes to sms service</description>
+        <parameters/>
+        <flow>
+            <context site-id="RefArchGlobal"/>
+            <step step-id="BackInStockCheck12hours" type="custom.BackInStockCheck" enforce-restart="false">
+                <description>Twice per day this job checks if some of the subscribed products is back in stock, if yes it goes to sms service</description>
+                <parameters/>
+            </step>
+        </flow>
+        <rules/>
+        <triggers>
+            <run-recurring enabled="true">
+                <recurrence>
+                    <date-from>2022-01-22Z</date-from>
+                    <start-time>16:39:46.000Z</start-time>
+                    <interval>12h</interval>
+                    <day-of-week/>
+                </recurrence>
+            </run-recurring>
+        </triggers>
+    </job>
+</jobs>
