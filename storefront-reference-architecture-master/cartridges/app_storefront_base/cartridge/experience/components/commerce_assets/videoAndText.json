@@ -1,0 +1,51 @@
+{
+  "name": "Video And Text",
+  "description": "This is a component combined Video with text",
+  "group": "commerce_assets",
+  "attribute_definition_groups": [
+    {
+      "id": "videoAndText",
+      "attribute_definitions": [
+        {
+          "id": "video",
+          "name": "video",
+          "type": "video",
+          "required": true
+        },
+        
+        {
+          "id": "alt",
+          "name": "Alt Text",
+          "description": "The video alt text shown by the component.",
+          "type": "string",
+          "required": false
+        },
+        {
+          "id": "heading",
+          "name": "Text Overlay",
+          "type": "markup",
+          "required": false
+        },
+        {
+          "id": "videoID",
+          "name": "videoID",
+          "type": "string",
+          "required": true
+        },
+        {
+          "id": "videoLink",
+          "name": "Video Link",
+          "type": "url",
+          "required": false
+        },
+        {
+          "id": "videoText",
+          "name": "Text Below Video",
+          "type": "markup",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "region_definitions": []
+}

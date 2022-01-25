@@ -1,0 +1,25 @@
+'use strict';
+
+var Template = require('dw/util/Template');
+var HashMap = require('dw/util/HashMap');
+
+
+/**
+ * Render logic for storefront.imageAndText component.
+ * @param {dw.experience.ComponentScriptContext} context The Component script context object.
+ * @param {dw.util.Map} [modelIn] Additional model values created by another cartridge. This will not be passed in by Commcerce Cloud Plattform.
+ *
+ * @returns {string} The markup to be displayed
+ */
+module.exports.render = function (context, modelIn) {
+    var model = modelIn || new HashMap();
+    var content = context.content;
+
+    model.heading = content.heading ? content.heading : null;
+    model.videoText = content.videoText ? content.videoText : null;
+    model.videoID = content.videoID ? content.videoID : null;
+    model.link = content.videoLink ? content.videoLink : 'https://www.youtube.com/watch?v=' + context.videoID;
+    model.alt = content.alt ? content.alt : null;
+
+    return new Template('experience/components/commerce_assets/videoAndText').render(model).text;
+};

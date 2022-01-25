@@ -1,25 +1,16 @@
-<isscript>
-var assets = require('*/cartridge/scripts/assets.js');
-assets.addCss('/css/helloform.css'); 
-assets.addJs('/js/helloform.js'); 
-</isscript>
-<iscomment> 
-<isscript>
-var URLUtils = require('dw/web/URLUtils');
-</isscript> </iscomment>
 
-<div class="card">
    
-    <form action="${URLUtils.url('BackInStock-Save')}" class="form" name="NotifyMeBackInStock" formid="NotifyMeBackInStock" method="POST"> 
-        <div class="form-group required">
-            
+    <form action="${URLUtils.url('BackInStock-Save')}" class="form" name="NotifyMeBackInStock" formid="NotifyMeBackInStock" method="POST"
+    <isprint  value="${pdict.NotifyMeBackInStock.attributes}" encoding="off" />> 
+        <div class="form-group required">   
             <input 
                 type="text" 
                 class="form-control" 
                 name="phoneNumbers"
                 id="phoneNumbers" 
                 placeholder="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}" 
-                aria-label="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}"/>
+                aria-label="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}"
+                <isprint value="${pdict.NotifyMeBackInStock.phoneNumbers.attributes}" encoding="off" />/>       
         </div> 
         <div class="form-group required">   
             <input 
@@ -27,17 +18,11 @@ var URLUtils = require('dw/web/URLUtils');
                 class="form-control" 
                 id="productId"
                 name="productId"
-                
                 value= "${product.id}" 
-                
-                placeholder= ${product.id} />
+                placeholder= ${product.id} 
+                <isprint value=" ${pdict.NotifyMeBackInStock.productId.attributes}" encoding="off" />
+                />
         </div>       
-        
-        <button type="submit" name="save" class="btn btn-block btn-primary">Submit</button>
-        
-        
+        <button type="submit" name="save" class="btn btn-block btn-primary">${Resource.msg('button.submit.NotifyMeBackInStock.form', 'forms', null)}</button> 
         <input type="hidden" name="${dw.web.CSRFProtection.getTokenName()}" value="${dw.web.CSRFProtection.generateToken()}">
     </form>
-</div>
-
-<iscomment> value="${pdict.Product.isVariant() ? pdict.Product.masterProduct.ID : pdict.Product.ID}"/> </iscomment>

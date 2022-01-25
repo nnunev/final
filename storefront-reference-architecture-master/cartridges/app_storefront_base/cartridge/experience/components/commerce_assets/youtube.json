@@ -1,0 +1,36 @@
+{
+    "name": "youtube",
+    "description": "This is a youtube component.",
+    "group": "commerce_assets",
+    "attribute_definition_groups": [
+        {
+            "id": "youtubeSpec",
+            "name": "BannerSpecification",
+            "description": "Specification to be displayed in editor.",
+            "attribute_definitions": [
+                {
+                    "id": "video",
+                    "name": "video",
+                    "description": "The video shown by the banner.",
+                    "type": "file",
+                    "required": true
+                },
+                {
+                    "id": "alt",
+                    "name": "Banner Image Alt Text",
+                    "description": "The image alt text shown by the banner.",
+                    "type": "string",
+                    "required": false
+                },
+                {
+                    "id": "videoID",
+                    "name": "videoID",
+                    "description": "The ID of the video to be linked in text below banner.",
+                    "type": "string",
+                    "required": true
+                }
+            ]
+        }
+    ],
+    "region_definitions": []
+}

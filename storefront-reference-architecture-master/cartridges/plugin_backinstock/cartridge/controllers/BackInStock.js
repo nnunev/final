@@ -9,23 +9,23 @@ var server = require('server');
 var csrfProtection = require('*/cartridge/scripts/middleware/csrf');
 var consentTracking = require('*/cartridge/scripts/middleware/consentTracking');
 var URLUtils = require('dw/web/URLUtils');
-// /**
-//  * Checks if the phone value entered is correct format
-//  * @param {string} phone - phone string to check if valid
-//  * @returns {boolean} Whether phone is valid
-//  */
-    // function valPhone(phone) {
-    //     var regex = /^[0-9]*$/;
-    //     return regex.test(phone);
-    // }
+/**
+ * Checks if the phone value entered is correct format
+ * @param {string} phone - phone string to check if valid
+ * @returns {boolean} Whether phone is valid
+ */
+function valPhone(phone) {
+    var regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{6})*$/;
+    return regex.test(phone);
+}
 
 /**
  * Checks if the phone value entered is correct format
  * @param {string} phone - phone string to check if valid
  * @returns {boolean} Whether phone is valid
  */
-function notEmptyPhone(phone) {
-    return (!empty(phone));
+function EmptyPhone(phone) {
+    return (empty(phone));
 }
 
 // NotifyMeBackInStock.phoneNumbers.error = Resource.msg('error.message.parse.phone.backInStockForm.form', 'forms', null);
@@ -82,9 +82,15 @@ server.post(
         var NotifyMeBackInStockResult = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
         
         var form = req.form;
+        var phone = req.form.phoneNumbers
         var error = false;
 
-        if (!form) { error = true; }
+        if ((!form) || 
+            !valPhone(phone) || 
+            EmptyPhone(phone)) { 
+            error = true; 
+        }
+
 
         try {
             if (!empty(NotifyMeBackInStockResult)) {
@@ -104,7 +110,11 @@ server.post(
         }
 
         if (error) {
-            res.json({ error: true });
+            res.json({ 
+                error: true, 
+                errorMessage: Resource.msg('error.message.parse.phone.NotifyMeBackInStock.form', 'forms', null)
+            });
+        
         } else {
             res.json({ error: false, redirectUrl: URLUtils.url('BackInStock-Show').toString(), });
         }
