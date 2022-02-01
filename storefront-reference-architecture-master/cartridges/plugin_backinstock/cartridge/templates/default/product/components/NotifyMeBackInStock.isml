@@ -1,8 +1,15 @@
 
-   
-    <form action="${URLUtils.url('BackInStock-Save')}" class="form" name="NotifyMeBackInStock" formid="NotifyMeBackInStock" method="POST"
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addJs('./js/backInStock.js');
+        assets.addCss('./css/backInStock.css');
+    </isscript>
+
+    
+    <form action="${URLUtils.url('BackInStock-Save')}" class="NotifyMeBackInStock" name="NotifyMeBackInStock" formid="NotifyMeBackInStock" method="POST"
     <isprint  value="${pdict.NotifyMeBackInStock.attributes}" encoding="off" />> 
-        <div class="form-group required">   
+        <div class="form-group required"> 
+            <iscomment> <label for="phoneNumbers">${Resource.msg('label.input.phone.profile','forms', null)}</label>   </iscomment>
             <input 
                 type="text" 
                 class="form-control" 
@@ -12,6 +19,8 @@
                 aria-label="${Resource.msg('placeholdertext.form.phoneNumbers', 'forms', null)}"
                 <isprint value="${pdict.NotifyMeBackInStock.phoneNumbers.attributes}" encoding="off" />/>       
         </div> 
+        <div class="NotifyMeBackInStock-signup-message" id="form-NotifyMeBackInStock-phoneNumbers-error"></div>
+        
         <div class="form-group required">   
             <input 
                 type="hidden" 
@@ -23,6 +32,8 @@
                 <isprint value=" ${pdict.NotifyMeBackInStock.productId.attributes}" encoding="off" />
                 />
         </div>       
-        <button type="submit" name="save" class="btn btn-block btn-primary">${Resource.msg('button.submit.NotifyMeBackInStock.form', 'forms', null)}</button> 
+        <button class="btn btn-block btn-primary subscribe-NotifyMeBackInStock" type="submit" name="submit" value="submit" >
+            ${Resource.msg('button.submit.NotifyMeBackInStock.form', 'forms', null)}
+        </button> 
         <input type="hidden" name="${dw.web.CSRFProtection.getTokenName()}" value="${dw.web.CSRFProtection.generateToken()}">
     </form>

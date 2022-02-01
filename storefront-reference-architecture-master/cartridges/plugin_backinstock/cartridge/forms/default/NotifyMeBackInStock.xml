@@ -11,7 +11,7 @@
 
         mandatory="true"
 
-       
+        binding="productId"
 
     />
  <!-- binding="productID" -->
@@ -23,13 +23,22 @@
 
         mandatory="true"
         
-        min-length="7"
+        binding="phoneNumbers"
+
+        min-length="12"
 
         max-length="15"
         
         regexp="/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{6})*$/"
         
-		type="string"/> 
+		type="string"
+        
+        missing-error="error.message.required"
+
+        parse-error="error.message.parse.phone.NotifyMeBackInStock.form"
+        
+        range-error="error.message.between10and20"
+        /> 
 
     <action formid="subscribe" label="subscribe" valid-form="true"/>
 

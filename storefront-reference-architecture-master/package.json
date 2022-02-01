@@ -110,11 +110,15 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1"
   },
+  "paths": {
+    "base": "./cartridges/app_storefront_base/"  
+  },
   "browserslist": [
     "last 2 versions",
     "ie >= 10"
   ],
-  "packageName": "app_storefront_base",
+  
+  "packageName": "plugin_backinstock",
   "babel": {
     "presets": [
       "env"

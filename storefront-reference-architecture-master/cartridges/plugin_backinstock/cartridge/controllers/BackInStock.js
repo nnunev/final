@@ -24,8 +24,18 @@ function valPhone(phone) {
  * @param {string} phone - phone string to check if valid
  * @returns {boolean} Whether phone is valid
  */
-function EmptyPhone(phone) {
+function emptyPhone(phone) {
     return (empty(phone));
+}
+
+function normalizePhone(phone) {
+    if (!empty(phone)) {
+        var result = phone.replace('+','');
+        result = result.replace('-','');   
+        result = result.replace('.','');
+        result = result.replace(' ','')     
+        return result;
+    }
 }
 
 // NotifyMeBackInStock.phoneNumbers.error = Resource.msg('error.message.parse.phone.backInStockForm.form', 'forms', null);
@@ -41,6 +51,7 @@ function EmptyPhone(phone) {
  * @param {renders} - isml
  * @param {serverfunction} - get
  */
+
 server.get(
     'Show',
     server.middleware.https,
@@ -48,11 +59,19 @@ server.get(
     consentTracking.consent,
     function (req, res, next) {
         var backInStockForm = server.forms.getForm('NotifyMeBackInStock');
+        var headerAsset = dw.content.ContentMgr.getContent('notify-me-back-in-stock-header');
+        var derAsset= headerAsset.custom.body;
         backInStockForm.clear();
-        res.render('product/components/NotifyMeBackInStock', { backInStockForm: backInStockForm }); 
+        res.render('product/components/NotifyMeBackInStock', { 
+            backInStockForm: backInStockForm,
+            headerAsset : headerAsset,
+            // actionUrl: URLUtils.url('BackInStock-Save').toString()
+        });
+
         return next();
     }
 );
+
 
 /**
  * Account-SaveProfile : The Account-SaveProfile endpoint is the endpoint that gets hit when a shopper has edited their profile
@@ -87,17 +106,19 @@ server.post(
 
         if ((!form) || 
             !valPhone(phone) || 
-            EmptyPhone(phone)) { 
+            emptyPhone(phone)) { 
             error = true; 
-        }
+            NotifyMeBackInStock.valid = false
+        } else {
 
-
+        
         try {
             if (!empty(NotifyMeBackInStockResult)) {
-
+                var nuberAlreadySubscribed = false
                 Transaction.wrap(function () {
-                    var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
-                    NotifyMeBackInStockEntry.custom.phoneNumbers =NotifyMeBackInStockEntry.custom.phoneNumbers + ' , ' + req.form.phoneNumbers;
+                    var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);    
+                    
+                    NotifyMeBackInStockEntry.custom.phoneNumbers = NotifyMeBackInStockEntry.custom.phoneNumbers + ',' + normalizePhone(req.form.phoneNumbers);
                 });
             } else {
                 Transaction.wrap(function () {
@@ -108,15 +129,24 @@ server.post(
         } catch (error) {
             error = true;
         }
-
-        if (error) {
-            res.json({ 
-                error: true, 
-                errorMessage: Resource.msg('error.message.parse.phone.NotifyMeBackInStock.form', 'forms', null)
-            });
+        }
         
+        if (error) {
+            res.json({  
+                error: true,
+                msg: Resource.msg('error.message.parse.phone.NotifyMeBackInStock.form', 'forms', null),
+                fields: formErrors.getFormErrors(NotifyMeBackInStock),
+                redirectUrl: URLUtils.url('BackInStock-Show').toString()
+            });
+           
         } else {
-            res.json({ error: false, redirectUrl: URLUtils.url('BackInStock-Show').toString(), });
+            res.json({
+                success: true,
+                msg: Resource.msg("subscribe.to.backInStock.success", 'forms', null),
+                redirectUrl: URLUtils.url('BackInStock-Show').toString()
+            });
+            // res.render('product/components/success.isml');
+            
         }
         
         return next();
@@ -125,4 +155,64 @@ server.post(
 module.exports = server.exports();
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Transaction.wrap(function () {CustomObjectMgr.remove(CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId));});
+
+
+// var currentProductId = NotifyMeBackInStockEntry.custom.productId;
+                    // var currentProduct = dw.catalog.ProductMgr.getProduct(currentProductId);
+                    // var currentProductPhoneNumbers = NotifyMeBackInStockEntry.custom.phoneNumbers.split(',');
+                    //  for each ( var e in currentProductPhoneNumbers) {
+                    //     var phoneNumber = e;
+                    //     var a = normalizePhone(req.form.phoneNumbers);
+                    //     var b = normalizePhone(phoneNumber) }
+                    //     if ( a === b){
+                    //          numberAlreadySubscribed = true
+                    //         res.json({ 
+                    //             error: true, 
+                    //             errorMessage: Resource.msg('error.message.subscribed.phone.NotifyMeBackInStock.form', 'forms', null)
+                    //         });
+                    //     } else {
+
+                        // if (!empty(NotifyMeBackInStockResult)) {
+                
+                        //     Transaction.wrap(function () {
+                        //         var NotifyMeBackInStockEntry = CustomObjectMgr.getCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);    
+                        //         var currentProductPhoneNumbers = NotifyMeBackInStockEntry.custom.phoneNumbers.split(',');
+                        //          for each ( e in currentProductPhoneNumbers) {
+                        //             var phoneNumber = e;
+                        //             var a = normalizePhone(req.form.phoneNumbers);
+                        //             var b = normalizePhone(phoneNumber);
+                               
+                        //             if ( normalizePhone(req.form.phoneNumbers); === normalizePhone(phoneNumber)){
+                        //                 res.json({ 
+                        //                     error: true, 
+                        //                     msg: Resource.msg('error.message.subscribed.phone.NotifyMeBackInStock.form', 'forms', null)
+                        //                 });
+                        //             } else {
+                        //             NotifyMeBackInStockEntry.custom.phoneNumbers = NotifyMeBackInStockEntry.custom.phoneNumbers + ',' + normalizePhone(req.form.phoneNumbers);
+                        //             }
+                        //         }
+                        //     });
+                        // } else {
+                        //     Transaction.wrap(function () {
+                        //         var NotifyMeBackInStockEntry = CustomObjectMgr.createCustomObject(NOTIFY_ME_BACK_IN_STOCK_CO, req.form.productId);
+                        //         NotifyMeBackInStockEntry.custom.phoneNumbers = req.form.phoneNumbers ;
+                        //     });
+                        // }

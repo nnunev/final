@@ -12,7 +12,7 @@ module.exports.execute = function () {
         var NotifyMeBackInStockEntry = IteratorBackInStock.next();
         var currentProductId = NotifyMeBackInStockEntry.custom.productId;
         var currentProduct = ProductMgr.getProduct(currentProductId);
-        var currentProductIsInStock = currentProduct.available;
+        var currentProductIsInStock = currentProduct.availabilityModel.inStock;
    
         if (currentProductIsInStock) {
             var currentProductPhoneNumbers = NotifyMeBackInStockEntry.custom.phoneNumbers.split(',');
@@ -20,12 +20,12 @@ module.exports.execute = function () {
             for each( e in currentProductPhoneNumbers) {
 				var phoneNumber = e;
                 
-                var requestBody ='To=' + phoneNumber.trim() + '&Body=' + currentProductId + ' is back in stock&From=+16075233986';
+                var requestBody ='To=' + phoneNumber.trim() + '&Body=' + currentProductId + '-' +currentProduct.name + ' is back in stock&From=+16075233986';
                
                 var sendSMS = LocalServiceRegistry.createService("plugin_backinstock.https.twilio.send", {
                     createRequest: function(svc, args) {
                         svc.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                        // svc.HTTPService.addHeader()
+            
                         return args;
                     },
                     parseResponse: function(svc, client) {

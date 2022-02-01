@@ -15,14 +15,19 @@
 </div>
 </isif>
 
+<isscript>
+    var headerAsset = dw.content.ContentMgr.getContent('notify-me-back-in-stock-header')
+</isscript>
 
 <div id="backToStockModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             
-            <div class="modal-header">   
-                <h4 class="modal-title">${Resource.msg('label.label.NotifyMeBackInStock.form', 'forms', null)} </h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-header">
+                    <isif condition="${!empty(headerAsset) && headerAsset.isOnline()}">
+                        <isprint value="${headerAsset.custom.body}" encoding="off" />
+                    </isif>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <div class="modal-body">
@@ -30,7 +35,6 @@
                     <isinclude template="/product/components/NotifyMeBackInStock" value="${product.id}" />
                 </div>
             </div>
-        
         </div>
     </div>
 </div>

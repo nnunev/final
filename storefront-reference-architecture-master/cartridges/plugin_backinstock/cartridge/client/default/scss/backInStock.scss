@@ -1,15 +1,7 @@
-@import "variables";
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/mixins/breakpoints";
-@import "components/formFields";
-@import "components/toastMessage";
-@import "base/global";
-@import "base/product/detail.scss";
- 
-.backInStock-signup-message {
-    @include toast-message();
-}
 
-.backInStock-signup-alert {
-    @include toast-alert();
-}
+
+
+
+
+
+

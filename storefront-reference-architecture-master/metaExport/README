@@ -1,5 +1,0 @@
-The correct settings for the object and the job are in Custom_Object_Type and BackInStockJob\jobs
-
-In OutOfStock2.zip
-I have set the scopes of BackInStock Job and Custom Object to Organization for easier testing 
-

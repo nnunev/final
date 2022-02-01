@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jobs xmlns="http://www.demandware.com/xml/impex/jobs/2015-07-01">
+
     <job job-id="BackInStockCheck12hours" priority="0">
         <description>This job checks if some of the subscribed products is back in stock, if yes it goes to sms service</description>
         <parameters/>
@@ -17,9 +18,18 @@
                     <date-from>2022-01-22Z</date-from>
                     <start-time>16:39:46.000Z</start-time>
                     <interval>12h</interval>
-                    <day-of-week/>
+                    <day-of-week>
+                        <weekday>Monday</weekday>
+                        <weekday>Tuesday</weekday>
+                        <weekday>Saturday</weekday>
+                        <weekday>Wednesday</weekday>
+                        <weekday>Thursday</weekday>
+                        <weekday>Sunday</weekday>
+                        <weekday>Friday</weekday>
+                    </day-of-week>
                 </recurrence>
             </run-recurring>
         </triggers>
     </job>
+
 </jobs>
